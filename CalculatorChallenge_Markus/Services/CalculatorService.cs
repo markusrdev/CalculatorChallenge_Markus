@@ -12,14 +12,18 @@ namespace CalculatorChallenge_Markus.Services
 
         private readonly IParserService _parserService;
 
-        public CalculatorService(IParserService parserService)
+        private readonly IValidatorService _validatorService;
+
+        public CalculatorService(IParserService parserService, IValidatorService validatorService)
         {
             _parserService = parserService;
+            _validatorService = validatorService;
         }
 
         public int Add(string input)
         {
-            var numbers = _parserService.ParseNumbers(input);
+            var numbers = _parserService.ParseNumbers(input); //Parse the input to return numbers or zero where necessary
+            _validatorService.ValidateNumbers(numbers); //Validate the numbers to check if any of them is negative
 
             return numbers.Sum();
         }
