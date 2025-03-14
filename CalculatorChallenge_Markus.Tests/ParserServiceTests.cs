@@ -41,11 +41,27 @@ namespace CalculatorChallenge_Markus.Tests
         }
 
         [Fact]
-        public void ParseNumbers_MultipleNumbers_ReturnAllNumbers()
+        public void ParseNumbers_MultipleNumbersWithCommas_ReturnAllNumbers()
         {
 
             var result = _parserService.ParseNumbers("1,2,3,4,5,6,7,8,9,10,11,12");
             Assert.Equal(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, result);
+        }
+
+        [Fact]
+        public void ParseNumbers_MultipleNumbersWithNewLines_ReturnAllNumbers()
+        {
+
+            var result = _parserService.ParseNumbers("1\n2\n3");
+            Assert.Equal(new List<int> { 1, 2, 3 }, result);
+        }
+
+        [Fact]
+        public void ParseNumbers_MultipleNumbersWithMixedDelimiters_ReturnAllNumbers()
+        {
+
+            var result = _parserService.ParseNumbers("1\n2,3");
+            Assert.Equal(new List<int> { 1, 2, 3 }, result);
         }
     }
 }
