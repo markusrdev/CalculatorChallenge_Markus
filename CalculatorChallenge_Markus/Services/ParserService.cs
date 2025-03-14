@@ -17,10 +17,23 @@ namespace CalculatorChallenge_Markus.Services
                 return new List<int> { 0 };
             }
 
-            var numbers = input.Split(Delimiters, StringSplitOptions.None); 
-           
+            string numbersPartOfInput = input;
+            char customDelimiter = '\0'; //Default to no custom delimiter
+            if (input.StartsWith("//") && input.Length > 3 && input[3] == '\n') //Check for the format of accepting a custom delimiter.
+            {
+                //Extract single-character delimiter
+                customDelimiter = input[2];
+                numbersPartOfInput = input.Substring(4); //Remove the custom delimiter part from the input
 
-            return numbers.Select(n => int.TryParse(n, out int num) ? num : 0).ToList(); //Check the numbers if any of them is not an integer, return 0 in place of that
+            }
+            var delimiters = Delimiters.Concat(customDelimiter != '\0' ? new[] { customDelimiter } : Array.Empty<char>()).ToArray(); //Add the custom delimiter to the existing delimiters
+           
+            var numbers = numbersPartOfInput.Split(delimiters, StringSplitOptions.None)
+                .Select(n => int.TryParse(n, out int num) ? num :0)
+                .ToList();
+
+
+            return numbers;
         }
     }
 }
