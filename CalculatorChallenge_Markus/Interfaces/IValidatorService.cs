@@ -9,5 +9,7 @@ namespace CalculatorChallenge_Markus.Interfaces
     public interface IValidatorService
     {
         public void ValidateNumbers(List<int> numbers);
+
+        public List<int> FilterNumbers(List<int> numbers);
     }
 }

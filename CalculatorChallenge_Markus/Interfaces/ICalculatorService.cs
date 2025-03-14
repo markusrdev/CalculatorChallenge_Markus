@@ -9,5 +9,7 @@ namespace CalculatorChallenge_Markus.Interfaces
     public interface ICalculatorService
     {
         int Add(string input);
+
+       
     }
 }

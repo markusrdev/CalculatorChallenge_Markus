@@ -25,6 +25,9 @@ namespace CalculatorChallenge_Markus.Services
             var numbers = _parserService.ParseNumbers(input); //Parse the input to return numbers or zero where necessary
             _validatorService.ValidateNumbers(numbers); //Validate the numbers to check if any of them is negative
 
+            //Step 5: Filter numbers greater than 1000
+            numbers = _validatorService.FilterNumbers(numbers);
+
             return numbers.Sum();
         }
     }

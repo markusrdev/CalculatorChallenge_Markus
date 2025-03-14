@@ -20,5 +20,10 @@ namespace CalculatorChallenge_Markus.Services
             
             
         }
+
+        public List<int> FilterNumbers(List<int> numbers)
+        {
+            return numbers.Where(n => n <= 1000).ToList(); // Filter out numbers greater than 1000
+        }
     }
 }

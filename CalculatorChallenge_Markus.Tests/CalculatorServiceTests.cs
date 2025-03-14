@@ -34,5 +34,17 @@ namespace CalculatorChallenge_Markus.Tests
             var exception = Assert.Throws<ArgumentException>(() => _calculatorService.Add("1, -2,3,-4"));
             Assert.Equal("Negative numbers are not allowed: -2, -4", exception.Message);
         }
+
+        [Fact]
+        public void Add_RemoveNumbersGreaterThan1000()
+        {
+            _parserServiceMock.Setup(p =>p.ParseNumbers("2, 1001,6")).Returns(new List<int> { 2, 1001, 6 });
+
+            _validatorServiceMock.Setup(v => v.FilterNumbers(It.IsAny<List<int>>()))
+                .Returns(new List<int> { 2, 6 });
+
+            var result = _calculatorService.Add("2, 1001,6");
+            Assert.Equal(8, result); // 2 + 6 = 8 1001 is ignored
+        }
     }
 }

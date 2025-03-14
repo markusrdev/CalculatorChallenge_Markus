@@ -41,5 +41,13 @@ namespace CalculatorChallenge_Markus.Tests
             var exception = Assert.Throws<ArgumentException>(() => _validatorService.ValidateNumbers(numbers));
             Assert.Equal("Negative numbers are not allowed: -2, -4", exception.Message);
         }
+
+        [Fact]
+        public void FilterNumbers_NumbersGreaterThan1000_AreIgnored()
+        {
+            var numbers = new List<int> { 1, 2, 3, 1001, 1002 };
+            var result = _validatorService.FilterNumbers(numbers);
+            Assert.Equal(new List<int> { 1, 2, 3 }, result); // Only numbers <= 1000 should be returned
+        }
     }
 }
