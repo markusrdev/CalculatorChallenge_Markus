@@ -70,5 +70,12 @@ namespace CalculatorChallenge_Markus.Tests
             var result = _parserService.ParseNumbers("//#\n2#5");
             Assert.Equal(new List<int> { 2, 5 }, result);
         }
+
+        [Fact]
+        public void ParseNumbers_MultiCharacterCustomDelimiter_ReturnsCorrectNumbers()
+        {
+            var result = _parserService.ParseNumbers("//[***]\n11***22***33");
+            Assert.Equal(new List<int> { 11, 22, 33 }, result);
+        }
     }
 }

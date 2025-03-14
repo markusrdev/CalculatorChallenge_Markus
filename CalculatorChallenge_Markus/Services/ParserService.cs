@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CalculatorChallenge_Markus.Interfaces;
 
@@ -18,17 +20,27 @@ namespace CalculatorChallenge_Markus.Services
             }
 
             string numbersPartOfInput = input;
-            char customDelimiter = '\0'; //Default to no custom delimiter
-            if (input.StartsWith("//") && input.Length > 3 && input[3] == '\n') //Check for the format of accepting a custom delimiter.
-            {
-                //Extract single-character delimiter
-                customDelimiter = input[2];
-                numbersPartOfInput = input.Substring(4); //Remove the custom delimiter part from the input
+            List<string> delimiters = Delimiters.Select(d => d.ToString()).ToList();
 
+            // Check for custom delimiters in the format: // //[delimiter]\n{numbers}
+            if (input.StartsWith("//"))
+            {
+                var match = Regex.Match(input, @"^//(\[.*\])\n"); // Match //[delimiter]\n
+                if (match.Success)
+                {
+                    string delimiterSection = match.Groups[1].Value;
+                    numbersPartOfInput = input.Substring(match.Length); // Remove the custom delimiter section from the input
+
+                    delimiters.AddRange(Regex.Matches(delimiterSection, @"\[(.*?)\]").Cast<Match>().Select(m => m.Groups[1].Value));
+                }
+                else if(input.Length > 3 && input[3] == '\n')
+                {
+                   
+                    delimiters.Add(input[2].ToString());
+                    numbersPartOfInput = input.Substring(4);                 }
             }
-            var delimiters = Delimiters.Concat(customDelimiter != '\0' ? new[] { customDelimiter } : Array.Empty<char>()).ToArray(); //Add the custom delimiter to the existing delimiters
-           
-            var numbers = numbersPartOfInput.Split(delimiters, StringSplitOptions.None)
+            // Split the numbers part of the input using the delimiters
+            var numbers = numbersPartOfInput.Split(delimiters.ToArray(), StringSplitOptions.None)
                 .Select(n => int.TryParse(n, out int num) ? num :0)
                 .ToList();
 
