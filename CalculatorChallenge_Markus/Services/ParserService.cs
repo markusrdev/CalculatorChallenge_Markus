@@ -25,7 +25,7 @@ namespace CalculatorChallenge_Markus.Services
             // Check for custom delimiters in the format: // //[delimiter]\n{numbers}
             if (input.StartsWith("//"))
             {
-                var match = Regex.Match(input, @"^//(\[.*\])\n"); // Match //[delimiter]\n
+                var match = Regex.Match(input, @"^//(\[.*?\])\n"); // Match //[delimiter][delimiter2\n{numbers}
                 if (match.Success)
                 {
                     string delimiterSection = match.Groups[1].Value;
@@ -37,7 +37,8 @@ namespace CalculatorChallenge_Markus.Services
                 {
                    
                     delimiters.Add(input[2].ToString());
-                    numbersPartOfInput = input.Substring(4);                 }
+                    numbersPartOfInput = input.Substring(4);                 
+                }
             }
             // Split the numbers part of the input using the delimiters
             var numbers = numbersPartOfInput.Split(delimiters.ToArray(), StringSplitOptions.None)
