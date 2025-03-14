@@ -17,10 +17,7 @@ namespace CalculatorChallenge_Markus.Services
             }
 
             var numbers = input.Split(','); //Comma delimeter 
-            if (numbers.Length > 2)
-            {
-                throw new ArgumentException("Only up to two numbers allowed."); //Throw exception if more than 2 numbers are supplied
-            }
+           
 
             return numbers.Select(n => int.TryParse(n, out int num) ? num : 0).ToList(); //Check the numbers if any of them is not an integer, return 0 in place of that
         }

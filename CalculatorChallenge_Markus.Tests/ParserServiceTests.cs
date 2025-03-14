@@ -41,10 +41,11 @@ namespace CalculatorChallenge_Markus.Tests
         }
 
         [Fact]
-        public void ParseNumbers_MoreThanTwoNumbers_ThrowsException()
+        public void ParseNumbers_MultipleNumbers_ReturnAllNumbers()
         {
 
-            Assert.Throws<ArgumentException>(() => _parserService.ParseNumbers("3,5,7"));
+            var result = _parserService.ParseNumbers("1,2,3,4,5,6,7,8,9,10,11,12");
+            Assert.Equal(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, result);
         }
     }
 }
